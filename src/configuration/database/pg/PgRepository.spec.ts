@@ -22,7 +22,7 @@ const makeSut = (): any => {
 
 
 describe('PgRepository', (): void => {
-    test('should execute a query without parameters', async (): Promise<void> => {    
+    it('should execute a query without parameters', async (): Promise<void> => {    
         const { sut, rows }: any = makeSut()
         const queryString = 'SELECT * FROM table'
         
@@ -33,7 +33,7 @@ describe('PgRepository', (): void => {
         expect(sut.pgPoolConnection.pool.query).toBeCalledWith(queryString, [])
     })
 
-    test('should execute a query with parameters', async (): Promise<void> => {        
+    it('should execute a query with parameters', async (): Promise<void> => {        
         const { sut, rows }: any = makeSut()
         const queryString = 'SELECT * FROM table WHERE field = $1'
         const queryParams = [1]
