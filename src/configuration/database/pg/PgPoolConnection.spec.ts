@@ -9,9 +9,9 @@ describe('PgPoolConnection', (): void => {
     })
 
     test('should return an existing pool if exists', async (): Promise<void> => {        
-        const sutA = PgPoolConnection.getInstance();
-        const sutB = PgPoolConnection.getInstance();
+        const sutA = PgPoolConnection.getInstance()
+        const sutB = PgPoolConnection.getInstance()
         
-        expect(sutA.pool).toBe(sutB.pool);
-    });
-});
+        expect(sutA.pool).toBe(sutB.pool)
+    })
+})
