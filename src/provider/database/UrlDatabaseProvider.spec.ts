@@ -5,14 +5,18 @@ import { UrlEntity } from '../../core/domain/entity/UrlEntity'
 
 describe('UrlDatabaseProvider', (): void => {
 
-    it('should call the repository with right arguments', () => {        
+    it('should call the repository with right arguments', async (): Promise<void> => {
         const mockRepository = mock<Repository>()
         const sut = new UrlDatabaseProvider(mockRepository)
 
         const urlEntity = new UrlEntity('original-url', 'new-url')
-        sut.insert(urlEntity)
+        await sut.insert(urlEntity)
         
-        expect(mockRepository.query).toBeCalledWith(sut.INSERT_QUERY, [urlEntity.originalUrl, urlEntity.newUrl])
+        expect(mockRepository.query).toBeCalledTimes(1)
+        expect(mockRepository.query).toBeCalledWith(
+            sut.INSERT_QUERY,
+            [urlEntity.originalUrl, urlEntity.newUrl]
+        )
     })
 })
 
