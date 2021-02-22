@@ -1,3 +1,3 @@
 export interface UrlShortenerService {
-    shorten(originalUrl: String): String;
+    shorten(originalUrl: string): string;
 }
