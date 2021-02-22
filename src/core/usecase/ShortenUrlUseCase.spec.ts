@@ -44,4 +44,15 @@ describe('ShortenUrlUseCase', () => {
         expect(mockUrlService.insert).toBeCalledWith(urlEntity)
     })
 
+    it('should return the new url returned by UrlShortenerService', () => {
+        const originalUrl = "https://any-url.com"
+        const newUrl = "https://new-url.com"        
+        
+        const {sut, mockUrlShortenerService, mockUrlService} = makeSut(newUrl)
+
+        const response = sut.execute(originalUrl)
+        
+        expect(response).toBe(newUrl)
+    })
+
 })

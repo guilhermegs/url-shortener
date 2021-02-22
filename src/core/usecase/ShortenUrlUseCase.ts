@@ -14,8 +14,8 @@ export class ShortenUrlUseCase implements IUseCase<string, string> {
         const newUrl = this.urlShortenerService.shorten(originalUrl)
 
         const urlEntity = new UrlEntity(originalUrl, newUrl);
-
         this.urlServicer.insert(urlEntity)
-        return ""
+        
+        return urlEntity.newUrl
     }
 }
