@@ -44,4 +44,17 @@ describe('PgRepository', (): void => {
         expect(result.length).toBe(rows.length)
         expect(sut.pgPoolConnection.pool.query).toBeCalledWith(queryString, queryParams)
     })
+
+    it('should return an empty array when rows are empty', async (): Promise<void> => {        
+        const { sut }: any = makeSut();
+        sut.pgPoolConnection.pool.query.mockImplementation(async (): Promise<any> => {
+            return Promise.resolve({});
+        });
+        const queryString = 'SELECT * FROM table';
+        
+        const result = await sut.query(queryString, []);
+        
+        expect(result).toBeInstanceOf(Array);
+        expect(result.length).toBe(0);
+    });
 })
