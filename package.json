@@ -8,7 +8,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "@types/pg": "^7.14.10",
+    "express": "^4.17.1",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
