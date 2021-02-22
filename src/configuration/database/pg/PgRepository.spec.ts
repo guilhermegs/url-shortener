@@ -32,4 +32,16 @@ describe('PgRepository', (): void => {
         expect(result.length).toBe(rows.length)
         expect(sut.pgPoolConnection.pool.query).toBeCalledWith(queryString, [])
     })
+
+    test('should execute a query with parameters', async (): Promise<void> => {        
+        const { sut, rows }: any = makeSut()
+        const queryString = 'SELECT * FROM table WHERE field = $1'
+        const queryParams = [1]
+        
+        const result = await sut.query(queryString, queryParams)
+        
+        expect(result).toBeInstanceOf(Array)
+        expect(result.length).toBe(rows.length)
+        expect(sut.pgPoolConnection.pool.query).toBeCalledWith(queryString, queryParams)
+    })
 })
