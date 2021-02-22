@@ -58,7 +58,7 @@ describe('PgRepository', (): void => {
         expect(result.length).toBe(0);
     });
 
-    test('should return an error if pg client fails', async (): Promise<void> => {        
+    it('should return an error if pg client fails', async (): Promise<void> => {        
         const { sut }: any = makeSut();
         sut.pgPoolConnection.pool.query.mockImplementation(async (): Promise<any> => {
             throw new Error('any error')
