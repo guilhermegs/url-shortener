@@ -10,7 +10,7 @@ export class PgRepository implements Repository {
     }
 
     async query(queryString: string, queryParams: any[]): Promise<any[]> {
-        throw new Error("Method not implemented.");
+        return (await this.pgPoolConnection.pool.query(queryString, queryParams)).rows
     }
 
 }
