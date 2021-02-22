@@ -21,7 +21,7 @@ const makeSut = (newUrl) => {
 
 describe('ShortenUrlUseCase', () => {
     
-    it('should call UrlShortenerService with the original url', () => {
+    it('should call UrlShortenerService with the original url', (): void => {
         const originalUrl = "https://any-url.com"
         
         const { sut, mockUrlShortenerService } = makeSut("any_new_url");
@@ -31,7 +31,7 @@ describe('ShortenUrlUseCase', () => {
         expect(mockUrlShortenerService.shorten).toBeCalledWith(originalUrl)        
     })
 
-    it('should call UrlService with the return of UrlShortenerService', () => {
+    it('should call UrlService with the return of UrlShortenerService', (): void => {
         const originalUrl = "https://any-url.com"
         const newUrl = "https://new-url.com"
         const urlEntity = new UrlEntity(originalUrl, newUrl)
@@ -44,7 +44,7 @@ describe('ShortenUrlUseCase', () => {
         expect(mockUrlService.insert).toBeCalledWith(urlEntity)
     })
 
-    it('should return the new url returned by UrlShortenerService', () => {
+    it('should return the new url returned by UrlShortenerService', (): void => {
         const originalUrl = "https://any-url.com"
         const newUrl = "https://new-url.com"        
         
