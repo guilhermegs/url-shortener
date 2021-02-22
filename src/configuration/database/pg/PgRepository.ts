@@ -10,7 +10,11 @@ export class PgRepository implements Repository {
     }
 
     async query(queryString: string, queryParams: any[]): Promise<any[]> {
-        return (await this.pgPoolConnection.pool.query(queryString, queryParams)).rows || []
+        try {
+            return (await this.pgPoolConnection.pool.query(queryString, queryParams)).rows || []
+        } catch(err) {
+            throw new Error(err.message)
+        }
     }
 
 }

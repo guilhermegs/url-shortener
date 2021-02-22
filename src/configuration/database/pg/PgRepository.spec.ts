@@ -57,4 +57,15 @@ describe('PgRepository', (): void => {
         expect(result).toBeInstanceOf(Array);
         expect(result.length).toBe(0);
     });
+
+    test('should return an error if pg client fails', async (): Promise<void> => {        
+        const { sut }: any = makeSut();
+        sut.pgPoolConnection.pool.query.mockImplementation(async (): Promise<any> => {
+            throw new Error('any error')
+        });
+        const queryString = 'SELECT * FROM table'
+        
+        const promise = sut.query(queryString, [])
+        expect(promise).rejects.toThrow(new Error('any error'))
+    });
 })
