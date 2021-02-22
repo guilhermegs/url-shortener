@@ -21,10 +21,10 @@ const makeSut = (newUrl) => {
 
 describe('ShortenUrlUseCase', () => {
     
-    it('should call UrlEncurtator with the original url', () => {
+    it('should call UrlShortenerService with the original url', () => {
         const originalUrl = "https://any-url.com"
         
-        const {sut, mockUrlShortenerService} = makeSut("any_new_url");
+        const { sut, mockUrlShortenerService } = makeSut("any_new_url");
 
         sut.execute(originalUrl)
 
@@ -36,7 +36,7 @@ describe('ShortenUrlUseCase', () => {
         const newUrl = "https://new-url.com"
         const urlEntity = new UrlEntity(originalUrl, newUrl)
         
-        const {sut, mockUrlShortenerService, mockUrlService} = makeSut(newUrl)
+        const { sut, mockUrlShortenerService, mockUrlService } = makeSut(newUrl)
 
         sut.execute(originalUrl)
         
@@ -48,7 +48,7 @@ describe('ShortenUrlUseCase', () => {
         const originalUrl = "https://any-url.com"
         const newUrl = "https://new-url.com"        
         
-        const {sut, mockUrlShortenerService, mockUrlService} = makeSut(newUrl)
+        const { sut } = makeSut(newUrl)
 
         const response = sut.execute(originalUrl)
         
