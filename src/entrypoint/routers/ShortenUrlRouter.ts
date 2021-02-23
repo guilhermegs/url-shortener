@@ -1,5 +1,6 @@
-import { ShortenUrlUseCase } from "../../core/usecase/ShortenUrlUseCase"
-import { HttpRequest, HttpResponse, Router } from './Router'
+import { ShortenUrlUseCase } from '../../core/usecase/ShortenUrlUseCase'
+import { HttpRequest, Router } from './Router'
+import { HttpResponse } from '../helpers/HttpResponse'
 
 export class ShortenUrlRouter implements Router {
     
@@ -11,6 +12,6 @@ export class ShortenUrlRouter implements Router {
         const originalUrl = httpRequest.body.url
 
         const newUrl = await this.shortenUrlUseCase.execute(originalUrl)
-        return {statusCode: 200, body: {newUrl}}
+        return HttpResponse.ok({newUrl});
     }
 }
