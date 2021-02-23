@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import { ShortenUrlRouterComposer } from './composer/ShortenUrlRouterComposer'
-import { ExpressControllerAdapter } from './adapter/ExpressControllerAdapter'
+import { RouterAdapter } from './adapter'
 
 const router = Router()
 
 router.post(
     '/encurtador', 
-    ExpressControllerAdapter.adapt(ShortenUrlRouterComposer.compose())
+    RouterAdapter.adapt(ShortenUrlRouterComposer.compose())
 )
 
 export { router }
