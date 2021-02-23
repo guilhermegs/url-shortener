@@ -1,20 +1,20 @@
 import { mock } from 'jest-mock-extended'
 import { ShortenUrlUseCase } from './ShortenUrlUseCase'
-import { UrlShortenerService } from './service/UrlShortenerService'
+import { IdGeneratorService } from './service/IdGeneratorService'
 import { UrlService } from './service/UrlService'
 import { UrlEntity } from '../domain/entity/UrlEntity'
 
 const makeSut = (newUrl) => {
-    const mockUrlShortenerService = mock<UrlShortenerService>()
-    mockUrlShortenerService.shorten.mockReturnValue(newUrl)
+    const mockIdGenerator = mock<IdGeneratorService>()
+    mockIdGenerator.generate.mockReturnValue(newUrl)
 
     const mockUrlService = mock<UrlService>()
 
-    const sut = new ShortenUrlUseCase(mockUrlShortenerService, mockUrlService)
+    const sut = new ShortenUrlUseCase(mockUrlService, mockIdGenerator)
 
     return {
         sut,
-        mockUrlShortenerService,
+        mockIdGenerator,
         mockUrlService
     }
 }
@@ -24,11 +24,11 @@ describe('ShortenUrlUseCase', () => {
     it('should call UrlShortenerService with the original url', (): void => {
         const originalUrl = "https://any-url.com"
         
-        const { sut, mockUrlShortenerService } = makeSut("any_new_url");
+        const { sut, mockIdGenerator } = makeSut("any_new_url");
 
         sut.execute(originalUrl)
 
-        expect(mockUrlShortenerService.shorten).toBeCalledWith(originalUrl)        
+        expect(mockIdGenerator.generate).toBeCalledTimes(1)
     })
 
     it('should call UrlService with the return of UrlShortenerService', (): void => {
@@ -36,11 +36,11 @@ describe('ShortenUrlUseCase', () => {
         const newUrl = "https://new-url.com"
         const urlEntity = new UrlEntity(originalUrl, newUrl)
         
-        const { sut, mockUrlShortenerService, mockUrlService } = makeSut(newUrl)
+        const { sut, mockIdGenerator, mockUrlService } = makeSut(newUrl)
 
         sut.execute(originalUrl)
         
-        expect(mockUrlShortenerService.shorten).toBeCalledWith(originalUrl)
+        expect(mockIdGenerator.generate).toBeCalledTimes(1)
         expect(mockUrlService.insert).toBeCalledWith(urlEntity)
     })
 
