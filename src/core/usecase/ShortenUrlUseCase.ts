@@ -3,7 +3,7 @@ import { UrlEntity } from "../domain/entity/UrlEntity";
 import { UrlService } from "./service/UrlService";
 import { IdGeneratorService } from './service/IdGeneratorService'
 
-export class ShortenUrlUseCase implements IUseCase<string, string> {
+export class ShortenUrlUseCase implements IUseCase<string, Promise<string>> {
 
     constructor (
         private urlServicer: UrlService,
@@ -12,12 +12,12 @@ export class ShortenUrlUseCase implements IUseCase<string, string> {
 
     BASE_URL = "http://localhost:8081/"
     
-    execute(originalUrl: string): string {
+    async execute(originalUrl: string): Promise<string> {
         const id = this.idGeneratorService.generate()
         const newUrl = this.BASE_URL + id
 
         const urlEntity = new UrlEntity(originalUrl, newUrl)
-        this.urlServicer.insert(urlEntity)
+        await this.urlServicer.insert(urlEntity)
         
         return urlEntity.newUrl
     }

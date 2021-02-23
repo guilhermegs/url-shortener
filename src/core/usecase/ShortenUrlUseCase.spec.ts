@@ -21,33 +21,33 @@ const makeSut = (id) => {
 
 describe('ShortenUrlUseCase', () => {
     
-    it('should call IdGeneratorService with the original url', (): void => {
+    it('should call IdGeneratorService with the original url', async (): Promise<void> => {
         const { sut, mockIdGenerator } = makeSut("anyid123");
 
-        sut.execute("https://any-url.com")
+        await sut.execute("https://any-url.com")
 
         expect(mockIdGenerator.generate).toBeCalledTimes(1)
     })
 
-    it('should call UrlService with a new url generated with the return of IdGeneratorService', (): void => {
+    it('should call UrlService with a new url generated with the return of IdGeneratorService', async (): Promise<void> => {
         const originalUrl = "https://any-url.com"
         const id = "1234abcd"
         
         const { sut, mockIdGenerator, mockUrlService } = makeSut(id)
 
-        sut.execute(originalUrl)
+        await sut.execute(originalUrl)
                 
         expect(mockIdGenerator.generate).toBeCalledTimes(1)
         expect(mockUrlService.insert).toBeCalledWith(new UrlEntity(originalUrl, sut.BASE_URL + id))
     })
 
-    it('should return a new new url with the id returned by IdGeneratorService', (): void => {
+    it('should return a new new url with the id returned by IdGeneratorService', async (): Promise<void> => {
         const originalUrl = "https://any-url.com"
         const id = "abcd123dc"
         
         const { sut } = makeSut(id)
 
-        const response = sut.execute(originalUrl)
+        const response = await sut.execute(originalUrl)
         
         expect(response).toBe(sut.BASE_URL + id)
     })
