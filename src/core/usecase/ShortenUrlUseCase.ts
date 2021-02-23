@@ -9,9 +9,12 @@ export class ShortenUrlUseCase implements IUseCase<string, string> {
         private urlServicer: UrlService,
         private idGeneratorService: IdGeneratorService
     ) { }
+
+    BASE_URL = "http://localhost:8081/"
     
     execute(originalUrl: string): string {
-        const newUrl = this.idGeneratorService.generate()
+        const id = this.idGeneratorService.generate()
+        const newUrl = this.BASE_URL + id
 
         const urlEntity = new UrlEntity(originalUrl, newUrl)
         this.urlServicer.insert(urlEntity)

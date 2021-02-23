@@ -4,9 +4,9 @@ import { IdGeneratorService } from './service/IdGeneratorService'
 import { UrlService } from './service/UrlService'
 import { UrlEntity } from '../domain/entity/UrlEntity'
 
-const makeSut = (newUrl) => {
+const makeSut = (id) => {
     const mockIdGenerator = mock<IdGeneratorService>()
-    mockIdGenerator.generate.mockReturnValue(newUrl)
+    mockIdGenerator.generate.mockReturnValue(id)
 
     const mockUrlService = mock<UrlService>()
 
@@ -21,38 +21,35 @@ const makeSut = (newUrl) => {
 
 describe('ShortenUrlUseCase', () => {
     
-    it('should call UrlShortenerService with the original url', (): void => {
-        const originalUrl = "https://any-url.com"
-        
-        const { sut, mockIdGenerator } = makeSut("any_new_url");
+    it('should call IdGeneratorService with the original url', (): void => {
+        const { sut, mockIdGenerator } = makeSut("anyid123");
 
-        sut.execute(originalUrl)
+        sut.execute("https://any-url.com")
 
         expect(mockIdGenerator.generate).toBeCalledTimes(1)
     })
 
-    it('should call UrlService with the return of UrlShortenerService', (): void => {
+    it('should call UrlService with a new url generated with the return of IdGeneratorService', (): void => {
         const originalUrl = "https://any-url.com"
-        const newUrl = "https://new-url.com"
-        const urlEntity = new UrlEntity(originalUrl, newUrl)
+        const id = "1234abcd"
         
-        const { sut, mockIdGenerator, mockUrlService } = makeSut(newUrl)
+        const { sut, mockIdGenerator, mockUrlService } = makeSut(id)
 
         sut.execute(originalUrl)
-        
+                
         expect(mockIdGenerator.generate).toBeCalledTimes(1)
-        expect(mockUrlService.insert).toBeCalledWith(urlEntity)
+        expect(mockUrlService.insert).toBeCalledWith(new UrlEntity(originalUrl, sut.BASE_URL + id))
     })
 
-    it('should return the new url returned by UrlShortenerService', (): void => {
+    it('should return a new new url with the id returned by IdGeneratorService', (): void => {
         const originalUrl = "https://any-url.com"
-        const newUrl = "https://new-url.com"        
+        const id = "abcd123dc"
         
-        const { sut } = makeSut(newUrl)
+        const { sut } = makeSut(id)
 
         const response = sut.execute(originalUrl)
         
-        expect(response).toBe(newUrl)
+        expect(response).toBe(sut.BASE_URL + id)
     })
 
 })
