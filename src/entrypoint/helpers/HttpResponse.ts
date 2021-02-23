@@ -10,4 +10,8 @@ export class HttpResponse {
     static ok(body: any): HttpResponse{
         return new HttpResponse(200, body)
     }
+
+    static badRequest(error: Error) {
+        return new HttpResponse(400, {error: error.message})
+    }
 }

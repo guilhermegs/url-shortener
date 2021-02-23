@@ -1,6 +1,6 @@
 import { ShortenUrlUseCase } from '../../core/usecase/ShortenUrlUseCase'
-import { HttpRequest, Router } from './Router'
-import { HttpResponse } from '../helpers/HttpResponse'
+import { Router } from './Router'
+import { HttpRequest, HttpResponse } from '../helpers'
 
 export class ShortenUrlRouter implements Router {
     
@@ -10,6 +10,10 @@ export class ShortenUrlRouter implements Router {
 
     async route(httpRequest: HttpRequest): Promise<HttpResponse> {
         const originalUrl = httpRequest.body.url
+
+        if(!originalUrl){
+            return HttpResponse.badRequest(new Error('O campo url é obrigatório.'))
+        }
 
         const newUrl = await this.shortenUrlUseCase.execute(originalUrl)
         return HttpResponse.ok({newUrl});
