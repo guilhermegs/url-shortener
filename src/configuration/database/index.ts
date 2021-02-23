@@ -1,3 +1,3 @@
-import { PgRepository as Repository} from './pg/PgRepository'
+import { PgRepository as Repository } from './pg/PgRepository'
 
 export { Repository }
