@@ -1,14 +1,13 @@
 import { mock } from 'jest-mock-extended'
 import { ShortenUrlUseCase } from '../core/usecase/ShortenUrlUseCase'
-import { ShortenUrlRequest } from './models/ShortenUrlRequest'
-import { ShortenUrlResponse } from './models/ShortenUrlResponse'
-import { UrlController } from './UrlController'
+import { ShortenUrlRouter } from './ShortenUrlRouter'
+import { HttpRequest, HttpResponse } from './Router'
 
 const makeSut = (newUrl: string) => {
     const mockShortenUrlUseCase = mock<ShortenUrlUseCase>()
     mockShortenUrlUseCase.execute.mockResolvedValue(newUrl)
 
-    const sut = new UrlController(mockShortenUrlUseCase)
+    const sut = new ShortenUrlRouter(mockShortenUrlUseCase)
 
     return {
         mockShortenUrlUseCase,
@@ -22,20 +21,22 @@ describe('UrlController', () => {
         const { mockShortenUrlUseCase, sut } = makeSut("http://new-url.com")
         const url = "http://any-url.com"
 
-        const shortenUrlRequest = new ShortenUrlRequest(url)
-
-        await sut.shorten(shortenUrlRequest)
+        const httpRequest: HttpRequest = {body: {url}}
+        await sut.route(httpRequest)
         expect(mockShortenUrlUseCase.execute).toBeCalledWith(url)
     })
 
-    it('should return a ShortenUrlResponse with the new url', async (): Promise<void> => {
+    it('should return a new url in the body and status 200', async (): Promise<void> => {
         const newUrl = "http://new-url.com"
         const { sut } = makeSut(newUrl)
         const url = "http://any-url.com"
 
-        const shortenUrlRequest = new ShortenUrlRequest(url)
+        const httpRequest: HttpRequest = {body: url}
 
-        const response: ShortenUrlResponse = await sut.shorten(shortenUrlRequest)
-        expect(response.newUrl).toBe(newUrl)
+        const response: HttpResponse = await sut.route(httpRequest)
+
+        console.log(response)
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toEqual({newUrl})
     })
 })
