@@ -1,8 +1,6 @@
 import { HttpResponse} from '../helpers/HttpResponse'
+import { HttpRequest } from '../helpers/HttpRequest'
 
-export interface HttpRequest {
-    body: any
-}
 export interface Router {
     route(httpRequest: HttpRequest): Promise<HttpResponse>
 }
