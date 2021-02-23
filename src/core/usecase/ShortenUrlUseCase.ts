@@ -1,9 +1,9 @@
-import { IUseCase } from "../domain/base/IUseCase";
+import { UseCase } from "../domain/base/UseCase";
 import { UrlEntity } from "../domain/entity/UrlEntity";
 import { UrlService } from "./service/UrlService";
 import { IdGeneratorService } from './service/IdGeneratorService'
 
-export class ShortenUrlUseCase implements IUseCase<string, Promise<string>> {
+export class ShortenUrlUseCase implements UseCase<string, Promise<string>> {
 
     constructor (
         private urlServicer: UrlService,
