@@ -1,5 +1,5 @@
 import { mock } from 'jest-mock-extended'
-import { ShortenUrlUseCase } from '../core/usecase/ShortenUrlUseCase'
+import { ShortenUrlUseCase } from '../../core/usecase/ShortenUrlUseCase'
 import { ShortenUrlRouter } from './ShortenUrlRouter'
 import { HttpRequest, HttpResponse } from './Router'
 

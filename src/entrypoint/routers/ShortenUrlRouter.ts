@@ -1,6 +1,4 @@
-import { ShortenUrlUseCase } from "../core/usecase/ShortenUrlUseCase"
-import { ShortenUrlRequest } from './models/ShortenUrlRequest'
-import { ShortenUrlResponse } from './models/ShortenUrlResponse'
+import { ShortenUrlUseCase } from "../../core/usecase/ShortenUrlUseCase"
 import { HttpRequest, HttpResponse, Router } from './Router'
 
 export class ShortenUrlRouter implements Router {
