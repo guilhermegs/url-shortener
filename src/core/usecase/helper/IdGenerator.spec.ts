@@ -9,4 +9,12 @@ describe('IdGenerator', () => {
         expect(response.length).toBeLessThanOrEqual(10)
         expect(response.length).toBeGreaterThanOrEqual(5)
     })
+
+    it('should return a string with only letters and numbers', () => {
+        const sut = new IdGenerator()
+
+        const response = sut.generate()        
+        const isResponseAlphanumeric = response.match(/^[0-9a-zA-Z]+$/)
+        expect(isResponseAlphanumeric).toBeTruthy()
+    })
 })
