@@ -1,6 +1,7 @@
 import { mock } from 'jest-mock-extended'
 import { ShortenUrlUseCase } from '../core/usecase/ShortenUrlUseCase'
 import { ShortenUrlRequest } from './models/ShortenUrlRequest'
+import { ShortenUrlResponse } from './models/ShortenUrlResponse'
 import { UrlController } from './UrlController'
 
 const makeSut = (newUrl: string) => {
@@ -25,5 +26,16 @@ describe('UrlController', () => {
 
         await sut.shorten(shortenUrlRequest)
         expect(mockShortenUrlUseCase.execute).toBeCalledWith(url)
+    })
+
+    it('should return a ShortenUrlResponse with the new url', async (): Promise<void> => {
+        const newUrl = "http://new-url.com"
+        const { sut } = makeSut(newUrl)
+        const url = "http://any-url.com"
+
+        const shortenUrlRequest = new ShortenUrlRequest(url)
+
+        const response: ShortenUrlResponse = await sut.shorten(shortenUrlRequest)
+        expect(response.newUrl).toBe(newUrl)
     })
 })

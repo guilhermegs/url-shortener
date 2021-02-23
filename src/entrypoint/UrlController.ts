@@ -9,7 +9,8 @@ export class UrlController {
         private shortenUrlUseCase: ShortenUrlUseCase
     ) { }
 
-    async shorten(shortenUrlRequest: ShortenUrlRequest) {
-        const newUrl = await this.shortenUrlUseCase.execute(shortenUrlRequest.url)        
+    async shorten(shortenUrlRequest: ShortenUrlRequest): Promise<ShortenUrlResponse>{
+        const newUrl = await this.shortenUrlUseCase.execute(shortenUrlRequest.url)
+        return new ShortenUrlResponse(newUrl)     
     }
 }
