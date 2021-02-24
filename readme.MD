@@ -3,6 +3,16 @@
 Disponibiliza uma API para encurtar urls e acessá-las após encurtadas.
 
 ---
+## Aplicação no Heroku
+
+A aplicação está hospedada no heroku, você pode acessá-la por esse endereço:
+
+   ```
+   https://wiser-url-shortener-api.herokuapp.com/api-docs/
+
+   ```
+
+---
 
 ## Rodando local
 

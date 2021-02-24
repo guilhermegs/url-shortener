@@ -43,6 +43,13 @@ paths:
       - 'Encurtador'
       summary: Redirecionar para URL original.
       description: Recideciona a URL retornada para a URL original.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id que foi gerado na rota do encurtador
       responses:
         200:  
           description: Redirecionamento realizado com sucesso.
