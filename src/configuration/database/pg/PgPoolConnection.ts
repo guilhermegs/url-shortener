@@ -1,3 +1,6 @@
+import { config } from 'dotenv'
+config()
+
 import { Pool } from 'pg';
 
 export class PgPoolConnection {
@@ -10,14 +13,13 @@ export class PgPoolConnection {
 
     public static getInstance(): PgPoolConnection {
         if (!PgPoolConnection.instance) {
-            PgPoolConnection.instance = new PgPoolConnection();
-            // TODO: Improve the connection. Get from env
+            PgPoolConnection.instance = new PgPoolConnection();            
             PgPoolConnection.instance.pool = new Pool({
-                host: '127.0.0.1',
-                port: 5432,
-                user: 'postgres',
-                database: 'wizer',
-                password: 'docker'
+                host: process.env.DB_HOST,
+                port: parseInt(<string>process.env.DB_PORT, 10),
+                user: process.env.DB_USER,
+                password: process.env.DB_PASSWORD,
+                database: process.env.DB_DATABASE,
             });            
         }
 
