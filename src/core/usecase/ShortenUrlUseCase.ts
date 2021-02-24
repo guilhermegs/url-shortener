@@ -18,9 +18,7 @@ export class ShortenUrlUseCase implements UseCase<string, Promise<string>> {
         const existentUrl = await this.urlService.findByOriginalUrl(originalUrl)
 
         if(existentUrl) {
-            const today = this.getToday()
-
-            if(existentUrl.validityEnd > today){
+            if(existentUrl.validityEnd > this.getToday()){
                 return existentUrl.newUrl
             } else {
                 await this.urlService.deleteByOriginalUrl(originalUrl)        

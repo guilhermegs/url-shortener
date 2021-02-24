@@ -131,7 +131,7 @@ describe('ShortenUrlUseCase', () => {
             originalUrl, 
             existentNewUrl,
             validityEndExpired
-        )        
+        )
         mockUrlService.findByOriginalUrl.mockResolvedValue(existentUrl)
         
         const response = await sut.execute(originalUrl)
