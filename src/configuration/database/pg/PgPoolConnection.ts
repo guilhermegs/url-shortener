@@ -13,14 +13,16 @@ export class PgPoolConnection {
 
     public static getInstance(): PgPoolConnection {
         if (!PgPoolConnection.instance) {
-            PgPoolConnection.instance = new PgPoolConnection();            
+            const isProduction = process.env.NODE_ENV === 'production'
+            const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
+
+            console.log(connectionString)
+
+            PgPoolConnection.instance = new PgPoolConnection();
             PgPoolConnection.instance.pool = new Pool({
-                host: process.env.DB_HOST,
-                port: parseInt(<string>process.env.DB_PORT, 10),
-                user: process.env.DB_USER,
-                password: process.env.DB_PASSWORD,
-                database: process.env.DB_DATABASE,
-            });            
+                connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
+                ssl: isProduction,
+            })
         }
 
         return PgPoolConnection.instance;
