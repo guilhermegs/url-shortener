@@ -7,7 +7,7 @@ import { ValidityEndGeneratorService } from './service/ValidityEndGeneratorServi
 export class ShortenUrlUseCase implements UseCase<string, Promise<string>> {
 
     constructor (
-        private urlServicer: UrlService,
+        private urlService: UrlService,
         private idGeneratorService: IdGeneratorService,
         private validityEndGeneratorService: ValidityEndGeneratorService
     ) { }
@@ -15,12 +15,32 @@ export class ShortenUrlUseCase implements UseCase<string, Promise<string>> {
     BASE_URL = "http://localhost:8081/"
     
     async execute(originalUrl: string): Promise<string> {        
+        const existentUrl = await this.urlService.findByOriginalUrl(originalUrl)
+
+        if(existentUrl) {
+            const today = this.getToday()
+
+            if(existentUrl.validityEnd > today){
+                return existentUrl.newUrl
+            } else {
+                await this.urlService.deleteByOriginalUrl(originalUrl)        
+            }    
+        }
+
         const newUrl = this.BASE_URL + this.idGeneratorService.generate()
         const validityEnd = this.validityEndGeneratorService.generate()
 
         const urlEntity = new UrlEntity(originalUrl, newUrl, validityEnd)
-        await this.urlServicer.insert(urlEntity)
+        
+        await this.urlService.insert(urlEntity)
         
         return urlEntity.newUrl
+    }
+
+    private getToday(): Date{
+        const today = new Date()
+        today.setHours(0,0,0,0)
+
+        return today
     }
 }

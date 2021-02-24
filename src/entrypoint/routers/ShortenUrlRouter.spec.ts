@@ -50,4 +50,21 @@ describe('UrlController', () => {
         expect(response.statusCode).toBe(400)
         expect(response.body).toEqual({ error: 'O campo url é obrigatório.' })
     })
+
+    it('should return an error 500 if ShortenUrlUseCase throws', async (): Promise<void> => {
+        const newUrl = "http://new-url.com"
+        const url = "http://any-url.com"
+
+        const { sut, mockShortenUrlUseCase } = makeSut(newUrl)
+        mockShortenUrlUseCase.execute.mockImplementation(() => {
+            throw new Error()
+        })
+
+        const httpRequest = new HttpRequest({url})
+
+        const response: HttpResponse = await sut.route(httpRequest)
+        
+        expect(response.statusCode).toBe(500)
+        expect(response.body).toEqual({ error: 'Erro interno.' })
+    })
 })

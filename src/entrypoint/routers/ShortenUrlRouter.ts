@@ -15,7 +15,14 @@ export class ShortenUrlRouter implements Router {
             return HttpResponse.badRequest(new Error('O campo url é obrigatório.'))
         }
 
-        const newUrl = await this.shortenUrlUseCase.execute(originalUrl)
-        return HttpResponse.ok({newUrl});
+        try {
+            const newUrl = await this.shortenUrlUseCase.execute(originalUrl)
+            return HttpResponse.ok({newUrl})
+        } catch(err) {
+            console.error(err)
+            return HttpResponse.serverError(new Error('Erro interno.'))
+        }
+        
+        
     }
 }

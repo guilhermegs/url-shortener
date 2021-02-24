@@ -14,4 +14,8 @@ export class HttpResponse {
     static badRequest(error: Error) {
         return new HttpResponse(400, {error: error.message})
     }
+
+    static serverError(error: Error) {
+        return new HttpResponse(500, {error: error.message})
+    }
 }
