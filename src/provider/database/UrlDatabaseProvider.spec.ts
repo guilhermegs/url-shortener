@@ -9,13 +9,13 @@ describe('UrlDatabaseProvider', (): void => {
         const mockRepository = mock<Repository>()
         const sut = new UrlDatabaseProvider(mockRepository)
 
-        const urlEntity = new UrlEntity('original-url', 'new-url')
+        const urlEntity = new UrlEntity('original-url', 'new-url', new Date())
         await sut.insert(urlEntity)
         
         expect(mockRepository.query).toBeCalledTimes(1)
         expect(mockRepository.query).toBeCalledWith(
             sut.INSERT_QUERY,
-            [urlEntity.originalUrl, urlEntity.newUrl]
+            [urlEntity.originalUrl, urlEntity.newUrl, urlEntity.validityEnd]
         )
     })
 })
