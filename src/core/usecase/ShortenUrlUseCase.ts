@@ -27,14 +27,14 @@ export class ShortenUrlUseCase implements UseCase<string, Promise<string>> {
             }    
         }
 
-        const newUrl = this.BASE_URL + this.idGeneratorService.generate()
+        const newUrl = this.idGeneratorService.generate()
         const validityEnd = this.validityEndGeneratorService.generate()
 
         const urlEntity = new UrlEntity(originalUrl, newUrl, validityEnd)
         
         await this.urlService.insert(urlEntity)
         
-        return urlEntity.newUrl
+        return this.BASE_URL + urlEntity.newUrl
     }
 
     private getToday(): Date{

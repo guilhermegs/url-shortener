@@ -60,7 +60,7 @@ describe('ShortenUrlUseCase', () => {
 
         await sut.execute(originalUrl)
                         
-        const urlEntity = new UrlEntity(originalUrl, sut.BASE_URL + id, validityEnd)
+        const urlEntity = new UrlEntity(originalUrl, id, validityEnd)
 
         expect(mockIdGenerator.generate).toBeCalledTimes(1)
         expect(mockUrlService.insert).toBeCalledWith(urlEntity)
