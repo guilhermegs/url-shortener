@@ -10,12 +10,8 @@ const swaggerDocument = YAML.load('src/configuration/swagger/swagger.yaml');
 
 const router = Router()
 
-router.use('/api-docs', function(req, res, next){
-    swaggerDocument.host = req.get('host');
-    req.swaggerDoc = swaggerDocument;
-    next();
-}, swaggerUi.serve);
-router.get('/api-docs', swaggerUi.setup());
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 router.post(
     '/encurtador', 

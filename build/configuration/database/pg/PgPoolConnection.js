@@ -15,7 +15,7 @@ var PgPoolConnection = /** @class */ (function () {
             PgPoolConnection.instance = new PgPoolConnection();
             PgPoolConnection.instance.pool = new pg_1.Pool({
                 connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-                ssl: isProduction,
+                ssl: { rejectUnauthorized: false },
             });
         }
         return PgPoolConnection.instance;

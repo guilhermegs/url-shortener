@@ -4,7 +4,7 @@ info:
   description: API para encurtar urls e acessá-las após encurtadas.
   version: v1
 servers:
-- url: http://localhost:3333/
+- url: https://wiser-url-shortener-api.herokuapp.com/
 paths:
   /encurtador:
     post:
