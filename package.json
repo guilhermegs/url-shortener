@@ -7,6 +7,7 @@
     "build": "rimraf ./build && tsc",
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/configuration/webserver/server.ts",
     "start": "npm run build && node build/configuration/webserver/server.js",
+    "tsc": "tsc",
     "test": "jest"
   },
   "dependencies": {
@@ -17,8 +18,7 @@
     "pg": "^8.5.1",
     "rimraf": "^2.7.1",
     "swagger-ui-express": "^4.1.6",
-    "ts-jest": "^26.5.2",
-    "tsc": "^1.20150623.0",
+    "ts-jest": "^26.5.2",    
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
