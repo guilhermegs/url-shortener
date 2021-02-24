@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Encurtador de URL
+  description: API para encurtar urls e acessá-las após encurtadas.
+  version: v1
+servers:
+- url: http://localhost:3333/
+paths:
+  /encurtador:
+    post:
+      tags:
+      - 'Encurtador'
+      summary: Encurta uma URL.
+      description: Encurta a URL recebida, retornando a nova url no formato <base_url>/< id>, sendo que o id deve ser alfanumérico entre 5 e 10 caracteres.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShortenerUrlRequest'
+        required: true
+      responses:
+        200:  
+          description: URL encurtada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortenerUrlResponse'
+        400:
+          description: Erro de requisição inválida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Erro interno na aplicação.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /:id:
+    get:
+      tags:
+      - 'Encurtador'
+      summary: Redirecionar para URL original.
+      description: Recideciona a URL retornada para a URL original.
+      responses:
+        200:  
+          description: Redirecionamento realizado com sucesso.
+        404:
+          description: URL original não foi encontrada ou não é mais válida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Erro interno na aplicação.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ShortenerUrlRequest:
+      required:
+      - url
+      type: object
+      properties:
+        url:
+          type: string
+    ShortenerUrlResponse:
+      required:
+      - newUrl
+      type: object
+      properties:
+        newUrl:
+          type: string
+          example: http://localhost:3333/6iaiysbch4
+    ErrorResponse:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: string
+          example: Mensagem de erro
