@@ -1,3 +1,6 @@
+import { config} from 'dotenv'
+config()
+
 import { UseCase } from "../domain/base/UseCase";
 import { UrlEntity } from "../domain/entity/UrlEntity";
 import { UrlService } from "./service/UrlService";
@@ -12,7 +15,7 @@ export class ShortenUrlUseCase implements UseCase<string, Promise<string>> {
         private validityEndGeneratorService: ValidityEndGeneratorService
     ) { }
 
-    BASE_URL = "http://localhost:8081/"
+    BASE_URL = process.env.BASE_URL
     
     async execute(originalUrl: string): Promise<string> {        
         const existentUrl = await this.urlService.findByOriginalUrl(originalUrl)
