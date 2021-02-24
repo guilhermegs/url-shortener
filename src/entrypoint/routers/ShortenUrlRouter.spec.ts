@@ -15,7 +15,7 @@ const makeSut = (newUrl: string) => {
     }
 }
 
-describe('UrlController', () => {
+describe('ShortenUrlRouter', () => {
 
     it('should call ShortenUrlUseCase with the originalUrl received in the body', async (): Promise<void> => {
         const { mockShortenUrlUseCase, sut } = makeSut("http://new-url.com")
