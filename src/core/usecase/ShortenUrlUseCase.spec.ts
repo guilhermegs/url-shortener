@@ -107,7 +107,7 @@ describe('ShortenUrlUseCase', () => {
         
         const response = await sut.execute(originalUrl)
         
-        expect(response).toBe(existentNewUrl)
+        expect(response).toBe(sut.BASE_URL + existentNewUrl)
         expect(mockUrlService.insert).toBeCalledTimes(0)
         expect(mockIdGenerator.generate).toBeCalledTimes(0)
         expect(mockValidityEndGeneratorService.generate).toBeCalledTimes(0)
