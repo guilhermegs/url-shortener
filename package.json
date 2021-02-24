@@ -4,19 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/configuration/webserver/server.ts",
+    "start": "ts-node src/configuration/webserver/server.ts",
+    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/configuration/webserver/server.ts",
     "test": "jest"
   },
   "dependencies": {
-    "@types/pg": "^7.14.10",
-    "@types/swagger-ui-express": "^4.1.2",
-    "@types/yamljs": "^0.2.31",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "moment": "^2.29.1",
     "pg": "^8.5.1",
     "swagger-ui-express": "^4.1.6",
+    "ts-node": "^9.1.1",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
@@ -26,6 +25,9 @@
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
+    "@types/pg": "^7.14.10",
+    "@types/swagger-ui-express": "^4.1.2",
+    "@types/yamljs": "^0.2.31",
     "babel-jest": "^26.6.3",
     "jest": "^26.6.3",
     "jest-mock-extended": "^1.0.13",
