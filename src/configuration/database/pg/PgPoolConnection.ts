@@ -19,7 +19,7 @@ export class PgPoolConnection {
             PgPoolConnection.instance = new PgPoolConnection();
             PgPoolConnection.instance.pool = new Pool({
                 connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-                ssl: isProduction,
+                ssl: { rejectUnauthorized: false },
             })
         }
 
