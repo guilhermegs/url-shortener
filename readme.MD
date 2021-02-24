@@ -12,7 +12,18 @@ Disponibiliza uma API para encurtar urls e acessá-las após encurtadas.
    npm install
    ```
 
-2. Inicie a aplicação:
+2. Crie um arquivo .env na raiz do projeto com as seguintes propriedades:
+
+   ```bash
+   DB_USER=...
+   DB_PASSWORD=...
+   DB_HOST=...
+   DB_PORT=...
+   DB_DATABASE=...
+   BASE_URL=...
+   ```
+
+3. Inicie a aplicação:
 
    ```bash
    npm start
