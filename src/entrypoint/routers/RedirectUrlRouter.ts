@@ -12,8 +12,13 @@ export class RedirectUrlRouter implements Router {
         const newUrl = httpRequest.params.newUrl
 
         try {
-            const originalUrl = await this.redirectUrlUseCase.execute(newUrl)
-            return HttpResponse.redirect(originalUrl)
+            const originalUrl = await this.redirectUrlUseCase.execute(newUrl)    
+
+            if(originalUrl){
+                return HttpResponse.redirect(originalUrl)
+            }
+            
+            return HttpResponse.notFound(new Error('URL não encontrada.'))
         } catch(err) {
             console.error(err)
             return HttpResponse.serverError(new Error('Erro interno.'))

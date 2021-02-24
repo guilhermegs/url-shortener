@@ -3,9 +3,12 @@ import { RedirectUrlUseCase } from '../../core/usecase/RedirectUrlUseCase'
 import { RedirectUrlRouter } from './RedirectUrlRouter'
 import { HttpRequest, HttpResponse } from '../helpers'
 
-const makeSut = (originalUrl: string) => {
+const makeSut = (originalUrl?: string) => {
     const mockRedirectUrlUseCase = mock<RedirectUrlUseCase>()
-    mockRedirectUrlUseCase.execute.mockResolvedValue(originalUrl)
+
+    if(originalUrl){
+        mockRedirectUrlUseCase.execute.mockResolvedValue(originalUrl)
+    }        
 
     const sut = new RedirectUrlRouter(mockRedirectUrlUseCase)
 
@@ -54,5 +57,17 @@ describe('RedirectUrlRouter', () => {
         
         expect(response.statusCode).toBe(500)
         expect(response.body).toEqual({ error: 'Erro interno.' })
+    })
+
+    it('should return an error 404 if originalUrl not found', async (): Promise<void> => {        
+        const { sut } = makeSut()        
+
+        const newUrl = "http://any-url.com"
+        const httpRequest = new HttpRequest(null, {newUrl})
+
+        const response: HttpResponse = await sut.route(httpRequest)
+        
+        expect(response.statusCode).toBe(404)
+        expect(response.body).toEqual({ error: 'URL não encontrada.' })
     })
 })
