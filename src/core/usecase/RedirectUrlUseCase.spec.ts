@@ -47,7 +47,7 @@ describe('RedirectUrlUseCase', () => {
 
         const response = await sut.execute('other-new-url')
 
-        expect(response).toBe(null)
+        expect(response).toBeNull()
     })
 
     it('should return null if UrlEntity exists but is not valid', async (): Promise<void> => {
@@ -65,6 +65,6 @@ describe('RedirectUrlUseCase', () => {
 
         const response = await sut.execute('any-new-url')
 
-        expect(response).toBe(null)
+        expect(response).toBeNull()
     })
 })

@@ -84,5 +84,39 @@ describe('UrlDatabaseProvider', (): void => {
             )
         })
     })
+
+    describe('findByNewUrl', (): void => {
+        it('should call the repository with right arguments in the findByNewUrl function', async (): Promise<void> => {
+            const { sut, mockRepository } = makeSut()
+            
+            const newUrl = 'new-url'
+            await sut.findByNewUrl(newUrl)
+            
+            expect(mockRepository.query).toBeCalledTimes(1)
+            expect(mockRepository.query).toBeCalledWith(
+                sut.QUERY_FIND_BY_NEW_URL,
+                [newUrl]
+            )
+        })
+
+        it('should return a url if exists', async (): Promise<void> => {
+            const { sut, urls } = makeSut()
+                        
+            const response = await sut.findByNewUrl(urls[0].new_url)
+            
+            expect(response).toStrictEqual(
+                new UrlEntity(urls[0].original_url, urls[0].new_url, urls[0].validity_end)
+            )
+        })
+
+        it('should return null if url not found', async (): Promise<void> => {
+            const { sut, urls, mockRepository } = makeSut()
+            mockRepository.query.mockResolvedValue([])
+                        
+            const response = await sut.findByNewUrl(urls[0].new_url)
+            
+            expect(response).toBeNull()
+        })
+    })
 })
 
