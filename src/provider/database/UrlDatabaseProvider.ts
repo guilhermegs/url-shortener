@@ -19,7 +19,7 @@ export class UrlDatabaseProvider implements UrlService {
         await this.database.query(this.QUERY_INSERT, queryParams)
     }
 
-    async findByOriginalUrl(originalUrl: string): Promise<UrlEntity> {
+    async findByOriginalUrl(originalUrl: string): Promise<UrlEntity | null> {
         const queryParams = [originalUrl]
 
         const response: any[] = await this.database.query(this.QUERY_FIND_BY_ORIGINAL_URL, queryParams)
@@ -35,7 +35,7 @@ export class UrlDatabaseProvider implements UrlService {
         await this.database.query(this.QUERY_DELETE_BY_ORIGINAL_URL, queryParams)
     }
 
-    async findByNewUrl(newUrl: string): Promise<UrlEntity> {
+    async findByNewUrl(newUrl: string): Promise<UrlEntity | null> {
         const queryParams = [newUrl]
 
         const response: any[] = await this.database.query(this.QUERY_FIND_BY_NEW_URL, queryParams)

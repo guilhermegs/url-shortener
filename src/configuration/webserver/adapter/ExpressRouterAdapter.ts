@@ -8,7 +8,7 @@ export class ExpressControllerAdapter {
         const httpRequest: HttpRequest = new HttpRequest(req.body, req.params)
         const httpResponse: HttpResponse = await controller.route(httpRequest)
 
-        if(httpResponse.statusCode == 301){
+        if(httpResponse.statusCode == 301 && httpResponse.redirectTo){
           res.redirect(httpResponse.redirectTo)          
         } else {
           res.status(httpResponse.statusCode).json(httpResponse.body)

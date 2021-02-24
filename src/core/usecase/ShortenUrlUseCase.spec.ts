@@ -7,7 +7,7 @@ import { ValidityEndGeneratorService } from './service/ValidityEndGeneratorServi
 import { ValidityEndGeneratorService as ValidityEndGenerator } from './helper'
 
 
-const makeIdGenerator = (id) => {
+const makeIdGenerator = (id: string) => {
     const mockIdGenerator = mock<IdGeneratorService>()
     mockIdGenerator.generate.mockReturnValue(id)
     return mockIdGenerator
@@ -26,7 +26,7 @@ const makeValidityEndGeneratorService = () => {
     return {mockValidityEndGeneratorService, validityEnd}
 }
 
-const makeSut = (id) => {
+const makeSut = (id: string) => {
     const mockIdGenerator = makeIdGenerator(id)
     const mockUrlService = makeUrlService()
     const { mockValidityEndGeneratorService, validityEnd } = makeValidityEndGeneratorService()

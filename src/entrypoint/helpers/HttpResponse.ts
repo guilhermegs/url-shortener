@@ -25,7 +25,7 @@ export class HttpResponse {
         return new HttpResponse(301, null, redirectTo)
     }
 
-    static notFound(error){
-        return new HttpResponse(404, {error: error.message});        
+    static notFound(error: Error){
+        return new HttpResponse(404, {error: error.message})
     }
 }

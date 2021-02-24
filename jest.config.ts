@@ -1,6 +1,11 @@
-export default {  
-  clearMocks: true,
-  coverageDirectory: "coverage",
-  coverageProvider: "babel",
-  testEnvironment: "node",
+module.exports = {
+  transform: {
+    '^.+\\.ts?$': 'ts-jest'
+  },
+  testEnvironment: 'node',
+  testRegex: './src/.*\\.(test|spec)?\\.(ts|ts)$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  "roots": [
+    "<rootDir>/src"
+  ]
 };
