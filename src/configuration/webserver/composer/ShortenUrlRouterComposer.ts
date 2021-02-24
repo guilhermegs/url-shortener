@@ -1,4 +1,4 @@
-import { IdGeneratorService } from "../../../core/usecase/helper";
+import { IdGeneratorService, ValidityEndGeneratorService } from "../../../core/usecase/helper";
 import { ShortenUrlUseCase } from "../../../core/usecase/ShortenUrlUseCase";
 import { ShortenUrlRouter } from "../../../entrypoint/routers/ShortenUrlRouter";
 import { UrlService } from "../../../provider/database";
@@ -9,7 +9,8 @@ export class ShortenUrlRouterComposer {
         const repository = new Repository()
         const urlService = new UrlService(repository)
         const idGeneratorService = new IdGeneratorService()
-        const shortenUrlUseCase = new ShortenUrlUseCase(urlService, idGeneratorService)
+        const validityEndGeneratorService = new ValidityEndGeneratorService()
+        const shortenUrlUseCase = new ShortenUrlUseCase(urlService, idGeneratorService, validityEndGeneratorService)
         return new ShortenUrlRouter(shortenUrlUseCase)        
     }
 }

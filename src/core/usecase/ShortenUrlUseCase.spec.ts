@@ -3,19 +3,25 @@ import { ShortenUrlUseCase } from './ShortenUrlUseCase'
 import { IdGeneratorService } from './service/IdGeneratorService'
 import { UrlService } from './service/UrlService'
 import { UrlEntity } from '../domain/entity/UrlEntity'
+import { ValidityEndGeneratorService } from './service/ValidityEndGeneratorService'
 
 const makeSut = (id) => {
     const mockIdGenerator = mock<IdGeneratorService>()
     mockIdGenerator.generate.mockReturnValue(id)
 
     const mockUrlService = mock<UrlService>()
+    
+    const mockValidityEndGeneratorService = mock<ValidityEndGeneratorService>()
+    const validityEnd = mockValidityEndGeneratorService.generate()
+    mockValidityEndGeneratorService.generate.mockReturnValue(validityEnd)
 
-    const sut = new ShortenUrlUseCase(mockUrlService, mockIdGenerator)
+    const sut = new ShortenUrlUseCase(mockUrlService, mockIdGenerator, mockValidityEndGeneratorService)
 
     return {
         sut,
         mockIdGenerator,
-        mockUrlService
+        mockUrlService,
+        validityEnd
     }
 }
 
@@ -29,16 +35,18 @@ describe('ShortenUrlUseCase', () => {
         expect(mockIdGenerator.generate).toBeCalledTimes(1)
     })
 
-    it('should call UrlService with a new url generated with the return of IdGeneratorService', async (): Promise<void> => {
+    it('should create a UrlEntity ann call UrlService with it', async (): Promise<void> => {
         const originalUrl = "https://any-url.com"
         const id = "1234abcd"
         
-        const { sut, mockIdGenerator, mockUrlService } = makeSut(id)
+        const { sut, mockIdGenerator, mockUrlService, validityEnd } = makeSut(id)
 
         await sut.execute(originalUrl)
-                
+                        
+        const urlEntity = new UrlEntity(originalUrl, sut.BASE_URL + id, validityEnd)
+
         expect(mockIdGenerator.generate).toBeCalledTimes(1)
-        expect(mockUrlService.insert).toBeCalledWith(new UrlEntity(originalUrl, sut.BASE_URL + id))
+        expect(mockUrlService.insert).toBeCalledWith(urlEntity)
     })
 
     it('should return a new new url with the id returned by IdGeneratorService', async (): Promise<void> => {

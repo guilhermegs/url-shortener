@@ -16,7 +16,7 @@ export class PgPoolConnection {
                 host: '127.0.0.1',
                 port: 5432,
                 user: 'postgres',
-                database: 'wiser',
+                database: 'wizer',
                 password: 'docker'
             });            
         }
