@@ -5,11 +5,14 @@ import { Router } from '../../../entrypoint/routers/Router'
 export class ExpressControllerAdapter {
     static adapt (controller: Router) {
       return async (req: Request, res: Response) => {
-        const httpRequest: HttpRequest = {
-          body: req.body
-        }
+        const httpRequest: HttpRequest = new HttpRequest(req.body, req.params)
         const httpResponse: HttpResponse = await controller.route(httpRequest)
-        res.status(httpResponse.statusCode).json(httpResponse.body)
+
+        if(httpResponse.statusCode == 301){
+          res.redirect(httpResponse.redirectTo)          
+        } else {
+          res.status(httpResponse.statusCode).json(httpResponse.body)
+        }              
       }
     }
   }
